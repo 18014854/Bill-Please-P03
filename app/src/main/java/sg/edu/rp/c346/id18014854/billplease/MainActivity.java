@@ -61,18 +61,27 @@ public class MainActivity extends AppCompatActivity {
                     disc = 1.0 - (Double.parseDouble(String.valueOf(etDiscount.getText()))/100);
                 }
 
-                int amount = Integer.parseInt(String.valueOf(etAmount.getText()));
-                int pax = Integer.parseInt(String.valueOf(etPax.getText()));
-                double finalBill = amount * total * disc;
+                int amount = 0;
+                int pax = 0;
+                double finalBill = total * disc;
 
-                if(etAmount.getText().toString().isEmpty() || etPax.getText().toString().isEmpty()){
-                    tvMessage.setText("Error: Input is Empty");
-                } else if(Integer.parseInt(String.valueOf(etPax.getText())) < 1){
-                    tvMessage.setText("Error: No of Pax less than 1, Pax has to be more than 0");
+                String message = "";
+
+                if((etAmount.getText().toString().isEmpty() && etPax.getText().toString().isEmpty())
+                        || etPax.getText().toString().isEmpty() || etAmount.getText().toString().isEmpty()){
+                    message = "Error: Input is Empty";
                 } else {
-                    tvBill.setText(String.format("Total Bill: $%.2f",(finalBill)));
-                    tvEachPays.setText(String.format("Each Pays: $%.2f",(finalBill/pax)));
+                    amount = Integer.parseInt(String.valueOf(etAmount.getText()));
+                    pax = Integer.parseInt(String.valueOf(etPax.getText()));
+                    finalBill = amount * finalBill;
+                    if (Integer.parseInt(String.valueOf(etPax.getText())) < 1) {
+                        message = "Error: No of Pax less than 1, Pax has to be more than 0";
+                    } else {
+                        tvBill.setText(String.format("Total Bill: $%.2f", (finalBill)));
+                        tvEachPays.setText(String.format("Each Pays: $%.2f", (finalBill / pax)));
+                    }
                 }
+                tvMessage.setText(message);
 
             };
 
